@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% if messages %}
+        <ul>
+            {% for message in messages%}
+            <li>
+                {{message|safe}}
+                <a href="">X</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        Bienvenido {{ request.user.first_name|default:request.user.username }},
+    {% endif %}
+    <button href="{%url 'login' %}">Iniciar Sesión</button>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %} 
+        <button type="submit">Cerrar Sesión</button>
+    </form>
+    {% block content %}
+    {% endblock %}
+    
+</body>
+</html>
